@@ -1,0 +1,77 @@
+---
+title : Are you getting a Christmas present?
+subtitle  : Developing Data Products
+author  : KQ
+job : 
+framework: revealjs
+highlighter : highlight.js
+hitheme :  tomorrow
+widgets :  []
+mode  : selfcontained
+knit  : slidify:knit2slides
+logo : xmas.png
+
+
+
+--- 
+# Are you getting a Christmas Present?
+### Developing Data Products
+<br><br><br>
+##### KQ
+
+---  .segue .dark .nobackground
+<q><font color="white">Every year, around this time, people all over the world are wondering whether they would be receiving a <b><i>Christmas</i></b> present.</font></q>
+
+---  
+## How this App helps?
+Based on some simple inputs, the app calculates the odds of you receiving a Christmas present this year.
+<br><br><br>
+The app requires you to be honest about 3 things:
+- Whether you believe in Santa Claus
+- Whether you have been good this year
+- Whether Santa Claus has access into your house
+
+---
+## How does this application work?
+##### Based on the 3 inputs, some simple calculation is performed.
+
+<font size=5>
+
+```
+ observe({
+    input$action_odds
+    values$int <- isolate({
+      as.numeric(input$num_belief) * as.numeric(input$num_chimney) * as.numeric(input$num_naughty)
+    })
+  })
+ 
+  output$str_odds <- renderText({
+
+     if (values$int == 0) {
+       paste("No chance you are getting anything!")
+     }
+     else if (values$int >= 1 & values$int < 6 ) {
+       paste("There's something for you. Just don't expect something out of this world.")
+     }
+     else if (values$int >= 6 & values$int <= 11) {
+       paste("You are doing great! Santa would be delivering your present personally - either by sleight, or DHL.")
+     }
+     else if (values$int == 12) {
+       paste("You are definitely getting what you wish for this Christmas! And perhaps a BIG surprise as well. Merry Christmas!")
+     }
+  })
+
+```
+</font>
+
+
+--- 
+### May the odds be ever in your favour!
+
+Today is only `r format(Sys.Date(), "%d %b %Y")`. 
+You still have some time before Christmas arrives to improve your odds!
+<br><br>
+
+## Merry Christmas!
+
+
