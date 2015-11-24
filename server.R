@@ -11,7 +11,6 @@ shinyServer(function(input, output) {
     })
   })
  
-
   output$str_odds <- renderText({
 
      if (values$int == 0) {
