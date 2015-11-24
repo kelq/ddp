@@ -1,36 +1,31 @@
 library(shiny)
 
-# Define UI for slider demo application
-shinyUI(function(input, output) {
+shinyServer(function(input, output) {
   
-  #  Application title
-  titlePanel("Sliders"),
-  
-  # Sidebar with sliders that demonstrate various available
-  # options
-  sidebarLayout(
-    sidebarPanel(
-      # Simple integer interval
-      sliderInput("integer", "Integer:", min=0, max=1000, value=500),
-      
-      # Decimal interval with step value
-      sliderInput("decimal", "Decimal:", min = 0, max = 1, value = 0.5, step= 0.1),
-      
-      # Specification of range within an interval
-      sliderInput("range", "Range:", min = 1, max = 1000, value = c(200,500)),
-      
-      # Provide a custom currency format for value display, 
-      # with basic animation
-      sliderInput("format", "Custom Format:", min = 0, max = 10000, value = 0, step = 2500,format="$#,##0", locale="us", animate=TRUE),
-      
-      # Animation with custom interval (in ms) to control speed,
-      # plus looping
-      sliderInput("animation", "Looping Animation:", 1, 2000, 1,step = 10, animate=animationOptions(interval=300, loop=TRUE)),
-      ntext <- eventReactive(input$goButton, {input$n})
-    
-    # Show a table summarizing the values entered
-    mainPanel(
-      tableOutput("values")
-    )
-  )
-))
+  values <- reactiveValues()
+
+  observe({
+    input$action_odds
+    values$int <- isolate({
+      as.numeric(input$num_belief) * as.numeric(input$num_chimney) * as.numeric(input$num_naughty)
+    })
+  })
+ 
+
+  output$str_odds <- renderText({
+
+     if (values$int == 0) {
+       paste("Unfortunately, there's not a chance you are getting anything!")
+     }
+     else if (values$int >= 1 & values$int < 6 ) {
+       paste("There's something for you. Just don't expect something out of this world.")
+     }
+     else if (values$int >= 6 & values$int <= 11) {
+       paste("You are doing great! Santa would be delivering your present personally - either by sleight, or DHL.")
+     }
+     else if (values$int == 12) {
+       paste("You are definitely getting what you wish for this Christmas! And perhaps a BIG surprise as well.  Merry Christmas!")
+     }
+
+  })
+})
